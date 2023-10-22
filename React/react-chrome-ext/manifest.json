@@ -1,0 +1,11 @@
+{
+    "name": "Sports Scores",
+    "version": "1.0.0",
+    "description": "See sports scores on the go.",
+    "manifest_version": 3,
+    "author": "Philippe Boisvert",
+    "action":{
+        "default_popup": "js/index.html",
+        "default_title": "Sports Score"
+    }
+}
