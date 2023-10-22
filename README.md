@@ -1,6 +1,6 @@
-# Chrome-Image-Flipper
+# Chrome-Sports-Scores
 
-Small Chrome extension used to flip images vertically or horizontally.
+Chrome Extension to see sports teams score on the fly.
 
 # How to
 
