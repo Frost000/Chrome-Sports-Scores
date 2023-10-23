@@ -10,5 +10,6 @@ const rootDiv = ReactDOM.createRoot(root);
 rootDiv.render(
   <React.StrictMode>
     <App />
+    {/*<App([]) />*/ }
   </React.StrictMode>
 );
