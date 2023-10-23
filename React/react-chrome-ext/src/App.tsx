@@ -12,38 +12,31 @@ TODO
 
 const SCHEDULE = "https://statsapi.web.nhl.com/api/v1/schedule";
 
-
-//function App(game2: any[]) {
+//function App(gamesIn: any[]) {
 function App() {
-  const schedule = getData(SCHEDULE);
-  schedule.then(data => data.dates[0].games.forEach((game: any) => {
-    const gamePk = game.gamePk;
-    //document.getElementById("gamesList")?.innerHTML.
-    //games.push(gamePk);
-    setGames([...games, gamePk]);
-    })
-  );
-  //let games2: any[] = [];
-
-    /*
-  console.log(games2);
-  console.log(games2.length)
-  const listItems = games2.map((gamePk: any) => {
-    console.log(gamePk);
-
-    return (
-      <li key={gamePk}>{game(gamePk)}</li>
-      )
-    }
-  );
-  console.log(listItems);
-*/
   let empty: any[] = [];
   const [games, setGames] = useState(empty);
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
+    const schedule = getData(SCHEDULE);
+    schedule.then(data => {
+      const tempGames: any[] = []
+      for( let i = 0; i < data.dates[0].games.length; i++) {
+        const gamePk = data.dates[0].games[i].gamePk;
+        tempGames.push(gamePk);
+        console.log("Added: " + gamePk);
+      }
+      setGames([...games, tempGames]);
+    });
+  }
+  
   return (
     <div className="App">
-      <ul id='gamesList' style={{height: "100%", overflowY: "scroll", backgroundColor: "greenyellow"}}>
+      <ul className='list' id='gamesList' style={{height: "100%", overflowY: "scroll", backgroundColor: "greenyellow"}}>
         {games.map(item => <li>{game(item)}</li>)}
       </ul>
     </div>
@@ -59,6 +52,7 @@ async function getData(source: String) {
 }
 
 function game(extra: any) {
+  console.log("extra: " + extra);
   return (
       <div style={{backgroundColor: "darkgreen"}}>
         <div style={{display: "flex", flexFlow: "row nowrap"}}>
@@ -81,4 +75,23 @@ function game(extra: any) {
       </div>
   );
 }
+
+/*
+
+  //let games2: any[] = [];
+
+    /*
+  console.log(games2);
+  console.log(games2.length)
+  const listItems = games2.map((gamePk: any) => {
+    console.log(gamePk);
+
+    return (
+      <li key={gamePk}>{game(gamePk)}</li>
+      )
+    }
+  );
+  console.log(listItems);
+*/
+
 

@@ -5,11 +5,22 @@
 
 .container {
   width: 15rem;
-  height: 15rem;
+  max-height: 45rem;
   background-color: green;
 }
 
 .center {
   justify-content: center;
   align-items: center;
+}
+
+.list {
+  list-style: none;
+  list-style-position: inside;
+  padding: 0;
+  margin: 0;
+}
+
+.list::-webkit-scrollbar {
+  display: none;
 }
