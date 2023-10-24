@@ -15,6 +15,7 @@ TODO
   sort les games
   Afficher les starts times
   Recherche par méta data. (?deep search chekbox, player, coach, etc)
+  faire Game Class avec metaData et timestamp
   Afficher heure en format 24h avec le bon locale.
 */
 
@@ -37,6 +38,9 @@ function App() {
         const newGame = getData(LIVE(gameInfo.gamePk));
         newGame.then(data => {
           games.push(game(data)); //#todo Sort les games pour qu'elles s'affichent dans le même ordre (startTime)
+          games.sort((n1, n2) => {
+            return n1.timestamp - n2.timestamp;
+          });
           setGames([...games]);
         });
       });
@@ -47,7 +51,7 @@ function App() {
     <div className="App"> {/*Lui qui avait pas de overflowY et noscroll ? */}
       <ul className='list' id='gamesList' style={{height: "100%", overflowY: "scroll", backgroundColor: "greenyellow"}}>
         {games.map(item => {
-          return (<li className="game">{item}</li>)
+          return (<li className="game">{item.content}</li>)
         })}
       </ul>
     </div>
@@ -65,6 +69,10 @@ async function getData(source: String) {
 function game(liveData: any) {
   if(liveData.copyright == undefined) { return <></>; }
 
+  const game = new class {content: any; meta: string | undefined; timestamp: number | undefined; }
+
+  game.timestamp = getTimestamp(liveData.gameData.datetime.dateTime);
+
   const homeTriCode = liveData.gameData.teams.home.triCode;
   const awayTriCode = liveData.gameData.teams.away.triCode;
   const homeImgSrc = getLogo(homeTriCode);
@@ -78,7 +86,7 @@ function game(liveData: any) {
   const timer = liveData.liveData.linescore.currentPeriodTimeRemaining ?? getTime(liveData.gameData.datetime.dateTime);
   const period = liveData.liveData.linescore.currentPeriodOrdinal ?? liveData.gameData.status.detailedState;
 
-  return (
+  game.content = (
       <div style={{backgroundColor: "darkgreen"}}>
         <div style={{display: "flex", flexFlow: "row nowrap"}}>
           <div className='center' style={{flexGrow: "1", margin: "auto"}}>
@@ -99,6 +107,8 @@ function game(liveData: any) {
         </div>
       </div>
   );
+
+  return game;
 }
 
 function getLogo(tricode: string) {
@@ -106,6 +116,10 @@ function getLogo(tricode: string) {
 }
 
 function getTime(longTime: string) {
-  return new Date(Date.parse(longTime)).toLocaleTimeString();
+  return new Date(getTimestamp(longTime)).toLocaleTimeString();
+}
+
+function getTimestamp(longTime: string) {
+  return Date.parse(longTime);
 }
 
