@@ -11,6 +11,7 @@ TODO
   Requery les fetch pour des lives update
   Si scheduled voir le datetime pour afficher le upcoming
   trouver les logos avec un ressource finder
+  refaire les images pour quelles soit environ de la même taille
 */
 
 const SCHEDULE = "https://statsapi.web.nhl.com/api/v1/schedule";
@@ -31,7 +32,8 @@ function App() {
       data.dates[0].games.forEach((gameInfo: any) => {
         const newGame = getData(LIVE(gameInfo.gamePk));
         newGame.then(data => {
-          setGames([...games, game(data)]);
+          games.push(game(data));
+          setGames([...games]);
         });
       });
     });
@@ -40,7 +42,9 @@ function App() {
   return (
     <div className="App">
       <ul className='list' id='gamesList' style={{height: "100%", overflowY: "scroll", backgroundColor: "greenyellow"}}>
-        {games.map(item => <li>{item}</li>)}
+        {games.map(item => {
+          return (<li>{item}</li>)
+        })}
       </ul>
     </div>
   );
