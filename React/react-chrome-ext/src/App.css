@@ -5,7 +5,7 @@
 
 .container {
   width: 15rem;
-  max-height: 45rem;
+  max-height: 35rem;
   background-color: green;
 }
 
@@ -14,11 +14,16 @@
   align-items: center;
 }
 
+li.game {
+  margin-top: 3px;
+}
+
 .list {
   list-style: none;
   list-style-position: inside;
   padding: 0;
   margin: 0;
+  max-height: 30rem;
 }
 
 .list::-webkit-scrollbar {

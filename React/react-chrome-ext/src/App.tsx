@@ -12,6 +12,10 @@ TODO
   Si scheduled voir le datetime pour afficher le upcoming
   trouver les logos avec un ressource finder
   refaire les images pour quelles soit environ de la même taille
+  sort les games
+  Afficher les starts times
+  Recherche par méta data. (?deep search chekbox, player, coach, etc)
+  Afficher heure en format 24h avec le bon locale.
 */
 
 const SCHEDULE = "https://statsapi.web.nhl.com/api/v1/schedule";
@@ -32,7 +36,7 @@ function App() {
       data.dates[0].games.forEach((gameInfo: any) => {
         const newGame = getData(LIVE(gameInfo.gamePk));
         newGame.then(data => {
-          games.push(game(data));
+          games.push(game(data)); //#todo Sort les games pour qu'elles s'affichent dans le même ordre (startTime)
           setGames([...games]);
         });
       });
@@ -40,10 +44,10 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className="App"> {/*Lui qui avait pas de overflowY et noscroll ? */}
       <ul className='list' id='gamesList' style={{height: "100%", overflowY: "scroll", backgroundColor: "greenyellow"}}>
         {games.map(item => {
-          return (<li>{item}</li>)
+          return (<li className="game">{item}</li>)
         })}
       </ul>
     </div>
@@ -65,14 +69,15 @@ function game(liveData: any) {
   const awayTriCode = liveData.gameData.teams.away.triCode;
   const homeImgSrc = getLogo(homeTriCode);
   const awayImgSrc = getLogo(awayTriCode);
-  const homeTeamName = liveData.gameData.teams.home.name;
-  const awayTeamName = liveData.gameData.teams.away.name;
+  //const homeTeamName = liveData.gameData.teams.home.name;
+  //const awayTeamName = liveData.gameData.teams.away.name;
 
   const homeScore = liveData.liveData.linescore.teams.home.goals;
   const awayScore = liveData.liveData.linescore.teams.away.goals;
 
-  const timer = liveData.liveData.linescore.currentPeriodTimeRemaining;
-  const period = liveData.liveData.linescore.currentPeriodOrdinal;
+  const timer = liveData.liveData.linescore.currentPeriodTimeRemaining ?? getTime(liveData.gameData.datetime.dateTime);
+  const period = liveData.liveData.linescore.currentPeriodOrdinal ?? liveData.gameData.status.detailedState;
+
   return (
       <div style={{backgroundColor: "darkgreen"}}>
         <div style={{display: "flex", flexFlow: "row nowrap"}}>
@@ -81,11 +86,11 @@ function game(liveData: any) {
           </div>
           <div style={{display: "flex", flexFlow: "column wrap"}}>
             <div className="center" style={{height: "1rem"}}>
-              {timer}
+              {period}
             </div>
             <p style={{fontSize: "2rem", margin: "0px"}}>{awayScore} - {homeScore}</p>
             <div className="center" style={{height: "1rem"}}>
-              {period}
+              {timer}
             </div>
           </div>
           <div className='center' style={{flexGrow: "1", margin: "auto"}}>
@@ -100,5 +105,7 @@ function getLogo(tricode: string) {
   return `/imgs/NHLTeams/${tricode}.png`;
 }
 
-
+function getTime(longTime: string) {
+  return new Date(Date.parse(longTime)).toLocaleTimeString();
+}
 
