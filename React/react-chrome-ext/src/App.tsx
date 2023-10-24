@@ -10,6 +10,7 @@ TODO
   Date Browser
   Requery les fetch pour des lives update
   Si scheduled voir le datetime pour afficher le upcoming
+  trouver les logos avec un ressource finder
 */
 
 const SCHEDULE = "https://statsapi.web.nhl.com/api/v1/schedule";
@@ -62,8 +63,6 @@ function game(liveData: any) {
   const awayImgSrc = getLogo(awayTriCode);
   const homeTeamName = liveData.gameData.teams.home.name;
   const awayTeamName = liveData.gameData.teams.away.name;
-
-  console.log(homeImgSrc);
 
   const homeScore = liveData.liveData.linescore.teams.home.goals;
   const awayScore = liveData.liveData.linescore.teams.away.goals;
