@@ -73,7 +73,7 @@ function game(liveData: any) {
       <div style={{backgroundColor: "darkgreen"}}>
         <div style={{display: "flex", flexFlow: "row nowrap"}}>
           <div className='center' style={{flexGrow: "1", margin: "auto"}}>
-            <img src={awayImgSrc} alt={awayTriCode} style={{width: "5rem", height: "auto"}}/>
+            <img src={awayImgSrc} alt={awayTriCode} style={{width: "4rem", height: "auto"}}/>
           </div>
           <div style={{display: "flex", flexFlow: "column wrap"}}>
             <div className="center" style={{height: "1rem"}}>
@@ -85,7 +85,7 @@ function game(liveData: any) {
             </div>
           </div>
           <div className='center' style={{flexGrow: "1", margin: "auto"}}>
-              <img src={homeImgSrc} alt={homeTriCode} style={{height: "4rem", width: "auto"}}/>
+              <img src={homeImgSrc} alt={homeTriCode} style={{width: "4rem", height: "auto"}}/>
             </div>
         </div>
       </div>
