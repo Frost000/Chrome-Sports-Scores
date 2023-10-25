@@ -17,6 +17,7 @@ TODO
   Recherche par méta data. (?deep search chekbox, player, coach, etc)
   faire Game Class avec metaData et timestamp
   Afficher heure en format 24h avec le bon locale.
+  Les games final mettre gris plus foncé
 */
 
 const SCHEDULE = "https://statsapi.web.nhl.com/api/v1/schedule";
@@ -83,6 +84,7 @@ function game(liveData: any) {
   const homeScore = liveData.liveData.linescore.teams.home.goals;
   const awayScore = liveData.liveData.linescore.teams.away.goals;
 
+  //#todo faire qu'affiche l'heure et scheduled tant que avant début
   const timer = liveData.liveData.linescore.currentPeriodTimeRemaining ?? getTime(liveData.gameData.datetime.dateTime);
   const period = liveData.liveData.linescore.currentPeriodOrdinal ?? liveData.gameData.status.detailedState;
 
