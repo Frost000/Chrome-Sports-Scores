@@ -18,6 +18,7 @@ TODO
   faire Game Class avec metaData et timestamp
   Afficher heure en format 24h avec le bon locale.
   Les games final mettre gris plus foncé
+  Mettres du temporary html le temps que les données load
 */
 
 const SCHEDULE = "https://statsapi.web.nhl.com/api/v1/schedule";
