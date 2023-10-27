@@ -3,22 +3,25 @@ import './App.css';
 
 /*
 TODO
-  set les ids pour chaque game
+  ?set les ids pour chaque game
   créer les objects game et league et etc.
   Bouger les styles dans les css
   Recherche par nom
   Date Browser
   Requery les fetch pour des lives update
-  Si scheduled voir le datetime pour afficher le upcoming
+  #Si scheduled voir le datetime pour afficher le upcoming
   trouver les logos avec un ressource finder
   refaire les images pour quelles soit environ de la même taille
-  sort les games
+  #sort les games
   Afficher les starts times
   Recherche par méta data. (?deep search chekbox, player, coach, etc)
   faire Game Class avec metaData et timestamp
-  Afficher heure en format 24h avec le bon locale.
+  Afficher heure en format 24h avec #le bon locale.
   Les games final mettre gris plus foncé
   Mettres du temporary html le temps que les données load
+  Aller chercher toutes les données locale par un data provider (rien de local)
+  Live updates (Timer sur les queries?)
+  Faire un update sequence
 */
 
 const SCHEDULE = "https://statsapi.web.nhl.com/api/v1/schedule";
@@ -64,14 +67,13 @@ export default App;
 async function getData(source: String) {
   const url: any = source;
   const data = fetch(url).then(response => response.json());
-
   return data;
 }
 
 function game(liveData: any) {
   if(liveData.copyright == undefined) { return <></>; }
 
-  const game = new class {content: any; meta: string | undefined; timestamp: number | undefined; }
+  const game = new class {content: any; meta: string | undefined; timestamp: number | undefined; teams: string[] | undefined; }
 
   game.timestamp = getTimestamp(liveData.gameData.datetime.dateTime);
 
@@ -85,9 +87,8 @@ function game(liveData: any) {
   const homeScore = liveData.liveData.linescore.teams.home.goals;
   const awayScore = liveData.liveData.linescore.teams.away.goals;
 
-  //#todo faire qu'affiche l'heure et scheduled tant que avant début
-  const timer = liveData.liveData.linescore.currentPeriodTimeRemaining ?? getTime(liveData.gameData.datetime.dateTime);
-  const period = liveData.liveData.linescore.currentPeriodOrdinal ?? liveData.gameData.status.detailedState;
+  const timer = game.timestamp > Date.now() ? getTimeFromTimestamp(game.timestamp) : liveData.liveData.linescore.currentPeriodTimeRemaining;
+  const period = game.timestamp > Date.now() ? liveData.gameData.status.detailedState : liveData.liveData.linescore.currentPeriodOrdinal ?? liveData.gameData.status.detailedState;
 
   game.content = (
       <div style={{backgroundColor: "darkgreen"}}>
@@ -118,8 +119,12 @@ function getLogo(tricode: string) {
   return `/imgs/NHLTeams/${tricode}.png`;
 }
 
-function getTime(longTime: string) {
+function getTimeFromString(longTime: string) {
   return new Date(getTimestamp(longTime)).toLocaleTimeString();
+}
+
+function getTimeFromTimestamp(timestamp: number) {
+  return new Date(timestamp).toLocaleTimeString();
 }
 
 function getTimestamp(longTime: string) {
