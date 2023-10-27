@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import './App.css';
+import DatePicker from "react-datepicker";
+import './react-datepicker.css';
 
 /*
 TODO
@@ -52,13 +54,37 @@ function App() {
     });
   }
 
+  const [startDate, setStartDate] = useState(new Date());
+
+  const previousDate = () => {
+    console.log(startDate);
+  }
+
+  const nextDate = () => {
+    console.log(startDate);
+  }
+
+  const changeDate = (date: Date) => {
+    setStartDate(date);
+  }
+
   return (
-    <div className="App"> {/*Lui qui avait pas de overflowY et noscroll ? */}
-      <ul className='list' id='gamesList' style={{height: "100%", overflowY: "scroll", backgroundColor: "greenyellow"}}>
-        {games.map(item => {
-          return (<li className="game">{item.content}</li>)
-        })}
-      </ul>
+    <div className="App"> 
+      <div className="optionSegment">
+        
+      </div>
+      <div className="optionSegment">
+        <button onClick={previousDate}>{'<'}</button>
+        <DatePicker selected={startDate} onChange={changeDate} />
+        <button onClick={previousDate}>{'>'}</button>
+      </div>
+      <div>
+        <ul className='list' id='gamesList' style={{height: "100%", overflowY: "scroll", backgroundColor: "greenyellow"}}>
+          {games.map(item => {
+            return (<li className="game">{item.content}</li>)
+          })}
+        </ul>
+      </div>
     </div>
   );
 }
@@ -81,6 +107,7 @@ function game(liveData: any) {
   const awayTriCode = liveData.gameData.teams.away.triCode;
   const homeImgSrc = getLogo(homeTriCode);
   const awayImgSrc = getLogo(awayTriCode);
+  game.teams = [liveData.gameData.teams.home.name, liveData.gameData.teams.away.name];
   //const homeTeamName = liveData.gameData.teams.home.name;
   //const awayTeamName = liveData.gameData.teams.away.name;
 
