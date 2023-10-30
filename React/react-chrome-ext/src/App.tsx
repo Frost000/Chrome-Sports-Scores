@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import './App.css';
 import DatePicker from "react-datepicker";
 import './react-datepicker.css';
+import { start } from "repl";
 
 /*
 TODO
@@ -27,24 +28,25 @@ TODO
 */
 
 const SCHEDULE = "https://statsapi.web.nhl.com/api/v1/schedule";
-const LIVE = (pk: string) => {return `https://statsapi.web.nhl.com/api/v1/game/${pk}/feed/live`}
+const SCHEDULEATDATE = (date: string) => {return SCHEDULE+`?date=${date}`}; // Format: 2018-01-09
+const LIVE = (pk: string) => {return `https://statsapi.web.nhl.com/api/v1/game/${pk}/feed/live`};
 
 function App() {
-  let empty: any[] = [];
-  const [games, setGames] = useState(empty);
+  const emptyArray = () => { const empty: any[] = []; return empty;};
+  const [games, setGames] = useState(emptyArray);
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  const fetchData = () => {
-    const schedule = getData(SCHEDULE);
+  const fetchData = (date?: Date) => {
+    const location = date ? SCHEDULEATDATE(date.toISOString().substring(0,10)) : SCHEDULE;
+    const schedule = getData(location);
     schedule.then(data => {
-      const tempGames: any[] = [];
       data.dates[0].games.forEach((gameInfo: any) => {
         const newGame = getData(LIVE(gameInfo.gamePk));
         newGame.then(data => {
-          games.push(game(data)); //#todo Sort les games pour qu'elles s'affichent dans le même ordre (startTime)
+          games.push(game(data));
           games.sort((n1, n2) => {
             return n1.timestamp - n2.timestamp;
           });
@@ -57,15 +59,15 @@ function App() {
   const [startDate, setStartDate] = useState(new Date());
 
   const previousDate = () => {
-    console.log(startDate);
+    changeDate(new Date(startDate.getTime() - 86400000));
   }
-
   const nextDate = () => {
-    console.log(startDate);
+    changeDate(new Date(startDate.getTime() + 86400000));
   }
-
   const changeDate = (date: Date) => {
     setStartDate(date);
+    while(games.pop() ?? false);
+    fetchData(date);
   }
 
   return (
@@ -76,7 +78,7 @@ function App() {
       <div className="optionSegment">
         <button onClick={previousDate}>{'<'}</button>
         <DatePicker selected={startDate} onChange={changeDate} />
-        <button onClick={previousDate}>{'>'}</button>
+        <button onClick={nextDate}>{'>'}</button>
       </div>
       <div>
         <ul className='list' id='gamesList' style={{height: "100%", overflowY: "scroll", backgroundColor: "greenyellow"}}>
@@ -114,7 +116,7 @@ function game(liveData: any) {
   const homeScore = liveData.liveData.linescore.teams.home.goals;
   const awayScore = liveData.liveData.linescore.teams.away.goals;
 
-  const timer = game.timestamp > Date.now() ? getTimeFromTimestamp(game.timestamp) : liveData.liveData.linescore.currentPeriodTimeRemaining;
+  const timer = game.timestamp > Date.now() ? getDateFromTimestamp(game.timestamp) : liveData.liveData.linescore.currentPeriodTimeRemaining;
   const period = game.timestamp > Date.now() ? liveData.gameData.status.detailedState : liveData.liveData.linescore.currentPeriodOrdinal ?? liveData.gameData.status.detailedState;
 
   game.content = (
@@ -150,7 +152,7 @@ function getTimeFromString(longTime: string) {
   return new Date(getTimestamp(longTime)).toLocaleTimeString();
 }
 
-function getTimeFromTimestamp(timestamp: number) {
+function getDateFromTimestamp(timestamp: number) {
   return new Date(timestamp).toLocaleTimeString();
 }
 
