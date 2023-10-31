@@ -6,24 +6,26 @@ import { start } from "repl";
 
 /*
 TODO
+  Fix display offset when using calendar
+
   ?set les ids pour chaque game
   créer les objects game et league et etc.
   Bouger les styles dans les css
   Recherche par nom
   Date Browser
-  Requery les fetch pour des lives update
+  Requery les fetch pour des lives update (juste si la game est live)
   #Si scheduled voir le datetime pour afficher le upcoming
   trouver les logos avec un ressource finder
   refaire les images pour quelles soit environ de la même taille
   #sort les games
-  Afficher les starts times
+  #Afficher les starts times
   Recherche par méta data. (?deep search chekbox, player, coach, etc)
   faire Game Class avec metaData et timestamp
   Afficher heure en format 24h avec #le bon locale.
   Les games final mettre gris plus foncé
   Mettres du temporary html le temps que les données load
   Aller chercher toutes les données locale par un data provider (rien de local)
-  Live updates (Timer sur les queries?)
+  Live updates (Timer sur les queries?) (juste si les games sont live)
   Faire un update sequence
 */
 
@@ -75,10 +77,10 @@ function App() {
       <div className="optionSegment">
         
       </div>
-      <div className="optionSegment">
-        <button onClick={previousDate}>{'<'}</button>
-        <DatePicker selected={startDate} onChange={changeDate} />
-        <button onClick={nextDate}>{'>'}</button>
+      <div className="optionSegment" style={{display: "flex", flexFlow: "row nowrap"}}>
+        <button onClick={previousDate} style={{width: "auto", height: "auto", margin: "auto"}}>{'<'}</button>
+        <DatePicker selected={startDate} onChange={changeDate}/>
+        <button onClick={nextDate} style={{width: "auto", height: "auto", margin: "auto"}}>{'>'}</button>
       </div>
       <div>
         <ul className='list' id='gamesList' style={{height: "100%", overflowY: "scroll", backgroundColor: "greenyellow"}}>
