@@ -9,7 +9,7 @@ TODO
 
   ?set les ids pour chaque game
   créer les objects game et league et etc.
-  Bouger les styles dans les css
+  Bouger les styles dans les css, changer les noms des class (surtout game)
   Recherche par nom
   #Date Browser
   Requery les fetch pour des lives update (juste si la game est live)
@@ -70,6 +70,20 @@ function App() {
     fetchData(date);
   }
 
+  const buildList = ():any[] => {
+    console.log(games.length);
+    
+    if(games.length < 1){
+      
+      const message = new class {content: any};
+      message.content = (<div className="center" style={{height: "2rem", color: "black", display: "flex", flexFlow: "column nowrap", backgroundColor: "yellowgreen"}}><div>No games to show</div></div>);
+      const temp:any[] = [message];
+      return temp;
+    }
+
+    return games;
+  }
+
   return (
     <div className="App"> 
       <div className="optionSegment">
@@ -82,8 +96,8 @@ function App() {
       </div>
       <div>
         <ul className='list' id='gamesList' style={{height: "100%", overflowY: "scroll", backgroundColor: "greenyellow"}}>
-          {games.map(item => {
-            return (<li className="game">{item.content}</li>)
+          {buildList().map(item => {
+            return (<li className={item.timestamp ?? false ? "game" : ""}>{item.content}</li>)
           })}
         </ul>
       </div>
@@ -91,6 +105,8 @@ function App() {
   );
 }
 export default App;
+
+
 
 async function getData(source: String) {
   const url: any = source;
