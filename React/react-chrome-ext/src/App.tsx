@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import './App.css';
 import DatePicker from "react-datepicker";
 import './react-datepicker.css';
-import { start } from "repl";
 
 /*
 TODO
@@ -12,7 +11,7 @@ TODO
   créer les objects game et league et etc.
   Bouger les styles dans les css
   Recherche par nom
-  Date Browser
+  #Date Browser
   Requery les fetch pour des lives update (juste si la game est live)
   #Si scheduled voir le datetime pour afficher le upcoming
   trouver les logos avec un ressource finder
@@ -20,8 +19,8 @@ TODO
   #sort les games
   #Afficher les starts times
   Recherche par méta data. (?deep search chekbox, player, coach, etc)
-  faire Game Class avec metaData et timestamp
-  Afficher heure en format 24h avec #le bon locale.
+  #faire Game Class avec metaData et timestamp
+  #Afficher heure en format 24h avec #le bon locale.
   Les games final mettre gris plus foncé
   Mettres du temporary html le temps que les données load
   Aller chercher toutes les données locale par un data provider (rien de local)
@@ -38,12 +37,11 @@ function App() {
   const [games, setGames] = useState(emptyArray);
 
   useEffect(() => {
-    fetchData();
+    fetchData(new Date());
   }, []);
 
-  const fetchData = (date?: Date) => {
-    const location = date ? SCHEDULEATDATE(date.toISOString().substring(0,10)) : SCHEDULE;
-    const schedule = getData(location);
+  const fetchData = (date: Date) => {
+    const schedule = getData(SCHEDULEATDATE(date.toISOString().substring(0,10)));
     schedule.then(data => {
       data.dates[0].games.forEach((gameInfo: any) => {
         const newGame = getData(LIVE(gameInfo.gamePk));
