@@ -30,8 +30,11 @@ TODO
   Afficher des messages différents pour pas de game, pas de mathc auj, erreur de fetch, pas de resultats recherche, etc
 */
 
-const SCHEDULE = "https://statsapi.web.nhl.com/api/v1/schedule";
-const SCHEDULEATDATE = (date: string) => {return SCHEDULE+`?date=${date}`}; // Format: 2018-01-09
+const NEWTODAYSCHEDULE = "https://api-web.nhle.com/v1/schedule/now";
+const SCHEDULE = "https://api-web.nhle.com/v1/schedule/";
+//const SCHEDULE = "https://statsapi.web.nhl.com/api/v1/schedule";
+//const SCHEDULEATDATE = (date: string) => {return SCHEDULE+`?date=${date}`}; // Format: 2018-01-09
+const SCHEDULEATDATE = (date: string) => {return SCHEDULE+`${date}`}; // Format: YYYY-MM-DD
 const LIVE = (pk: string) => {return `https://statsapi.web.nhl.com/api/v1/game/${pk}/feed/live`};
 
 function App() {
