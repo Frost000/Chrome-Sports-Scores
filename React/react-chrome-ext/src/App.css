@@ -5,13 +5,15 @@
 
 .container {
   width: 15rem;
+  height: fit-content;
   max-height: 35rem;
   background-color: green;
 }
 
 .optionSegment {
-  max-height: 5rem;
+  /*max-height: 5rem;*/
   background-color: aquamarine;
+  height: fit-content;
 }
 
 .center {

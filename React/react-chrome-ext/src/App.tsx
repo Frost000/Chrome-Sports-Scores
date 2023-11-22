@@ -22,10 +22,12 @@ TODO
   #faire Game Class avec metaData et timestamp
   #Afficher heure en format 24h avec #le bon locale.
   Les games final mettre gris plus foncé
-  Mettres du temporary html le temps que les données load
+  #Mettres du temporary html le temps que les données load
   Aller chercher toutes les données locale par un data provider (rien de local)
   Live updates (Timer sur les queries?) (juste si les games sont live)
   Faire un update sequence
+  Faire que le calendar puisse être plus grand que l'app
+  Afficher des messages différents pour pas de game, pas de mathc auj, erreur de fetch, pas de resultats recherche, etc
 */
 
 const SCHEDULE = "https://statsapi.web.nhl.com/api/v1/schedule";
@@ -71,10 +73,7 @@ function App() {
   }
 
   const buildList = ():any[] => {
-    console.log(games.length);
-    
     if(games.length < 1){
-      
       const message = new class {content: any};
       message.content = (<div className="center" style={{height: "2rem", color: "black", display: "flex", flexFlow: "column nowrap", backgroundColor: "yellowgreen"}}><div>No games to show</div></div>);
       const temp:any[] = [message];
@@ -105,8 +104,6 @@ function App() {
   );
 }
 export default App;
-
-
 
 async function getData(source: String) {
   const url: any = source;

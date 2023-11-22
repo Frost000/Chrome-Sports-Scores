@@ -12,6 +12,11 @@
   top: 6px;
   width: 9px;
 }
+
+.react-datepicker-popper {
+  overflow: visible;
+}
+
 .react-datepicker-popper[data-placement^=top] .react-datepicker__triangle, .react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle {
   margin-left: -4px;
   position: absolute;
@@ -77,8 +82,8 @@
   color: #000;
   border: 1px solid #aeaeae;
   border-radius: 0.3rem;
-  display: inline-block;
   position: relative;
+  overflow-y: visible;
 }
 
 .react-datepicker--time-only .react-datepicker__triangle {
@@ -168,7 +173,7 @@
 .react-datepicker-time__header {
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .react-datepicker__navigation {
@@ -186,7 +191,7 @@
   height: 32px;
   width: 32px;
   text-indent: -999em;
-  overflow: hidden;
+  overflow: visible;
 }
 .react-datepicker__navigation--previous {
   left: 2px;
@@ -257,6 +262,7 @@
 .react-datepicker__month {
   margin: 0.4rem;
   text-align: center;
+  overflow: visible;
 }
 .react-datepicker__month .react-datepicker__month-text,
 .react-datepicker__month .react-datepicker__quarter-text {
@@ -319,7 +325,7 @@
 }
 .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box {
   width: 85px;
-  overflow-x: hidden;
+  overflow-x: visible;
   margin: 0 auto;
   text-align: center;
   border-bottom-right-radius: 0.3rem;
@@ -328,7 +334,7 @@
   list-style: none;
   margin: 0;
   height: calc(195px + 1.7rem / 2);
-  overflow-y: scroll;
+  overflow-y: visible;
   padding-right: 0;
   padding-left: 0;
   width: 100%;
@@ -462,7 +468,7 @@
   padding: 4px;
   border-radius: 4px;
   white-space: nowrap;
-  visibility: hidden;
+  visibility: visible;
   opacity: 0;
   transition: visibility 0s, opacity 0.3s ease-in-out;
 }
@@ -791,7 +797,7 @@
   border: 0;
   height: 1px;
   margin: -1px;
-  overflow: hidden;
+  overflow: visible;
   padding: 0;
   width: 1px;
   white-space: nowrap;
